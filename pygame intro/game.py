@@ -30,6 +30,7 @@ class game:
         self.enemy.update()
         self.all_sprites.add(self.enemy)
         self.enemies = pygame.sprite.Group()
+        self.enemies.add(self.enemy)
         self.input = input(self)
      def text_object(self,text, font):
         textSurface = font.render(text,True, self.black)
@@ -130,7 +131,7 @@ class game:
             #
             if pygame.sprite.spritecollideany(self.player,self.enemies):
                  player.kill()
-                 # crash()
+                 self.crash()
                  gameExit = True
 
             # if x > display_width - car_width or x < 0:
