@@ -10,6 +10,9 @@ from pygame.locals import (
 )
 class input:
 
-    def __init__(self):
+    def __init__(self, game):
+        self.game = game
 
     def update(self, keypressed):
+        self.game.player.update(keypressed)
+        self.game.enemies.update()

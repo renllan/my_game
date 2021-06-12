@@ -2,6 +2,7 @@ import pygame
 import time
 from player import Player
 from Enemy import Enemy
+from input import input
 class game:
      def __init__(self):
         pygame.init()
@@ -29,7 +30,7 @@ class game:
         self.enemy.update()
         self.all_sprites.add(self.enemy)
         self.enemies = pygame.sprite.Group()
-
+        self.input = input(self)
      def text_object(self,text, font):
         textSurface = font.render(text,True, self.black)
         return textSurface, textSurface.get_rect()
@@ -121,16 +122,16 @@ class game:
             #         if pygame.sprite.spritecollideany(bullet, enemies):
             #             bullet.kill()
             # Update the player sprite based on user keypresses
-            player.update(pressed_keys)
+            self.input.update(pressed_keys)
             # bullet.update(pressed_keys)
-            self.enemies.update()
+
             for entity in self.all_sprites:
                 self.gameDisplay.blit(entity.surf, entity.rect)
             #
-            # if pygame.sprite.spritecollideany(player,enemies):
-            #     player.kill()
-            #     # crash()
-            #     gameExit = True
+            if pygame.sprite.spritecollideany(self.player,self.enemies):
+                 player.kill()
+                 # crash()
+                 gameExit = True
 
             # if x > display_width - car_width or x < 0:
             #         gameExit = True
@@ -172,4 +173,3 @@ if __name__ == '__main__':
     game = game()
     game.gameloop()
 
-    
