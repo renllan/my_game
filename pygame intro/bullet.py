@@ -12,20 +12,17 @@ from pygame.locals import (
 )
 class Bullet(pygame.sprite.Sprite):
     num_bullet = 0
-    def __init__(self):
+    def __init__(self,game ):
         super(Bullet, self).__init__()
         self.surf = pygame.Surface((10,30))
-        self.surf .fill(dark_grey)
-        self.rect = self.surf.get_rect(
-            center = (position))
+        self.dark_grey = (169, 169, 169)
+        self.surf .fill(self.dark_grey)
+        self.rect = self.surf.get_rect()
         self.num_bullet += 1
+        self.rect.midtop = game.player.rect.midtop
+        self.y = float(self.rect.y)
 
-    def update(self,key):
-         if key[K_SPACE]:
-             self.rect.move_ip(0, -20)
-         if key[K_LEFT]:
-             self.rect.move_ip(-5, 0)
-         if key[K_RIGHT]:
-            self.rect.move_ip(5, 0)
-         if self.rect.top < 0:
-             self.kill()
+
+    def update(self):
+         self.y -= 20
+

@@ -3,6 +3,7 @@ import time
 from player import Player
 from Enemy import Enemy
 from input import input
+from bullet import Bullet
 class game:
      def __init__(self):
         pygame.init()
@@ -26,12 +27,16 @@ class game:
         self.player = Player(self)
         self.all_sprites = pygame.sprite.Group()
         self.all_sprites.add(self.player)
+
         self.enemy = Enemy(self)
         self.enemy.update()
         self.all_sprites.add(self.enemy)
+
         self.enemies = pygame.sprite.Group()
         self.enemies.add(self.enemy)
         self.input = input(self)
+
+        self.bullets = pygame.sprite.Group()
      def text_object(self,text, font):
         textSurface = font.render(text,True, self.black)
         return textSurface, textSurface.get_rect()
@@ -53,6 +58,10 @@ class game:
     #
     # def thing(x,y,w,h, color,blocks):
     #     pygame.draw.rect(gameDisplay,color, [x,y,w,h])
+     def fire_bullet(self):
+         new_bullet = Bullet(self)
+         self.bullets.add(new_bullet)
+         self.all_sprites.add (new_bullet)
      def gameloop(self):
         # i = 1
         # numblock = 1
@@ -99,6 +108,8 @@ class game:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         gameExit = True
+                    if event.key == pygame.K_SPACE:
+                        self.fire_bullet()
                 elif event.type == ADDENEMY:
                     new_enemy = Enemy(self)
                     self.enemies.add(new_enemy)
@@ -124,10 +135,13 @@ class game:
             #             bullet.kill()
             # Update the player sprite based on user keypresses
             self.input.update(pressed_keys)
-            # bullet.update(pressed_keys)
+            self.bullets.update()
 
             for entity in self.all_sprites:
                 self.gameDisplay.blit(entity.surf, entity.rect)
+            for b in self.bullets:
+                self.gameDisplay.blit(b.surf,b.rect)
+                b.update()
             #
             if pygame.sprite.spritecollideany(self.player,self.enemies):
                  player.kill()
