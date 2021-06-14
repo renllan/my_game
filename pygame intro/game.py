@@ -4,6 +4,7 @@ from player import Player
 from Enemy import Enemy
 from input import input
 from bullet import Bullet
+from scoreboard import scoreboard
 class game:
      def __init__(self):
         pygame.init()
@@ -37,14 +38,15 @@ class game:
         self.input = input(self)
 
         self.bullets = pygame.sprite.Group()
+        self.score = scoreboard(self)
      def text_object(self,text, font):
         textSurface = font.render(text,True, self.black)
         return textSurface, textSurface.get_rect()
 
-     def message_display(self,str):
+     def message_display(self,str,x,y):
         largeText = pygame.font.Font('freesansbold.ttf',115)
         TextSurf, TextRect = self.text_object(str, largeText)
-        TextRect.center = ((self.display_width/2),(self.display_height/2))
+        TextRect.center = (x,y)
         self.gameDisplay.blit(TextSurf, TextRect)
 
         pygame.display.update()
@@ -52,7 +54,8 @@ class game:
         time.sleep(2)
 
      def crash(self):
-        self.message_display('you crashed')
+        self.message_display('you crashed',self.display_width/2,self.display_height/2)
+        self.message_display('score: {}'.format(self.score.score),self.display_width/2,self.display_height/2+100)
     # def car(x,y):
     #     gameDisplay.blit(carImg, (x,y))
     #
@@ -105,6 +108,7 @@ class game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     gameExit = True
+
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         gameExit = True
@@ -147,6 +151,9 @@ class game:
                  player.kill()
                  self.crash()
                  gameExit = True
+            collision = pygame.sprite.groupcollide(self.bullets,self.enemies,True,True)
+            if collision != {}:
+                self.score.update_score()
 
             # if x > display_width - car_width or x < 0:
             #         gameExit = True

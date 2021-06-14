@@ -4,6 +4,7 @@ import pygame
 class Enemy(pygame.sprite.Sprite):
     def __init__(self,game):
         super(Enemy, self).__init__()
+        self.game = game
         self.surf = pygame.Surface((40, 20))
         self.surf.fill(game.black)
         self.rect = self.surf.get_rect(
@@ -19,3 +20,4 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.move_ip(0, self.speed)
         if self.rect.top > self.display_height:
             self.kill()
+            self.game.score.update_score()

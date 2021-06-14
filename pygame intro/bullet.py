@@ -24,5 +24,7 @@ class Bullet(pygame.sprite.Sprite):
 
 
     def update(self):
-         self.y -= 20
+         self.rect.move_ip(0, -5)
+         if self.rect.top < 0:
+             self.kill()
 
