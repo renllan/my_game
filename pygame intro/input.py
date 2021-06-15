@@ -6,7 +6,8 @@ from pygame.locals import (
     K_ESCAPE,
     KEYDOWN,
     QUIT,
-    K_SPACE
+    K_SPACE,
+    K_r
 )
 from bullet import Bullet
 class input:
@@ -15,8 +16,29 @@ class input:
         self.game = game
 
     def update(self, keypressed):
-        self.game.player.update(keypressed)
+        # self.game.player.update(keypressed)
+        player1 = self.game.get_player()
+        if keypressed[K_LEFT]:
+            player1.move(-5, 0)
+        if keypressed[K_DOWN]:
+            player1.move(0, 5)
+
+        if keypressed[K_RIGHT]:
+            player1.move(5, 0)
+
+        if player1.rect.left < 0:
+            player1.rect.left = 0
+        if player1.rect.right > self.game.display_width:
+            player1.rect.right = self.game.display_width
+        if player1.rect.top <= 0:
+            player1.rect.top = 0
+        if player1.rect.bottom >= self.game.display_height:
+            player1.rect.bottom = self.game.display_height
         self.game.enemies.update()
+        # if keypressed[K_SPACE]:
+        #     self.game.fire_bullet()
+        if keypressed[K_r]:
+            self.game.num_bullets = 20
         # if keypressed[K_SPACE]:
         #     bullet = Bullet(self.game)
         #     self.game.all_sprites.add(bullet)

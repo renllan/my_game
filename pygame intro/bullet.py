@@ -27,4 +27,5 @@ class Bullet(pygame.sprite.Sprite):
          self.rect.move_ip(0, -5)
          if self.rect.top < 0:
              self.kill()
-
+    def display_numbullets(self):
+        self.game.message_display("bullets: {}".format(self.game.num_bullets),self.game.display_width,20,20)

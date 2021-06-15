@@ -20,4 +20,4 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.move_ip(0, self.speed)
         if self.rect.top > self.display_height:
             self.kill()
-            self.game.score.update_score()
+            self.game.score.update_score(1)

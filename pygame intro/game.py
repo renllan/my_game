@@ -39,32 +39,47 @@ class game:
 
         self.bullets = pygame.sprite.Group()
         self.score = scoreboard(self)
+        self.num_bullets = 20
      def text_object(self,text, font):
         textSurface = font.render(text,True, self.black)
         return textSurface, textSurface.get_rect()
 
-     def message_display(self,str,x,y):
-        largeText = pygame.font.Font('freesansbold.ttf',115)
+     def message_display(self,str,x,y,font_size):
+        largeText = pygame.font.Font('freesansbold.ttf',font_size)
         TextSurf, TextRect = self.text_object(str, largeText)
         TextRect.center = (x,y)
         self.gameDisplay.blit(TextSurf, TextRect)
 
         pygame.display.update()
 
-        time.sleep(2)
+
+
 
      def crash(self):
-        self.message_display('you crashed',self.display_width/2,self.display_height/2)
-        self.message_display('score: {}'.format(self.score.score),self.display_width/2,self.display_height/2+100)
+        self.message_display('you crashed',self.display_width/2,self.display_height/2,115)
+
+        self.message_display('score: {}'.format(self.score.score),self.display_width/2,self.display_height/2+100,115)
+        time.sleep(1)
+
+
+
     # def car(x,y):
     #     gameDisplay.blit(carImg, (x,y))
     #
     # def thing(x,y,w,h, color,blocks):
     #     pygame.draw.rect(gameDisplay,color, [x,y,w,h])
      def fire_bullet(self):
-         new_bullet = Bullet(self)
-         self.bullets.add(new_bullet)
-         self.all_sprites.add (new_bullet)
+         if self.num_bullets > 0:
+             new_bullet = Bullet(self)
+             self.bullets.add(new_bullet)
+             self.all_sprites.add (new_bullet)
+             self.num_bullets -= 1
+
+     def display_numbullets(self):
+         self.message_display("bullets: {}".format(self.num_bullets), self.display_width-100, 20, 20)
+     def get_player(self):
+         return self.player
+
      def gameloop(self):
         # i = 1
         # numblock = 1
@@ -91,7 +106,7 @@ class game:
 
         # # all_sprites.add(bullet)
         ADDENEMY = pygame.USEREVENT + 0
-        pygame.time.set_timer(ADDENEMY,200)
+        pygame.time.set_timer(ADDENEMY,300)
         #
         # ADDBULLETT = pygame.USEREVENT + 1
         # pygame.time.set_timer(ADDBULLETT, 200)
@@ -113,7 +128,7 @@ class game:
                     if event.key == pygame.K_ESCAPE:
                         gameExit = True
                     if event.key == pygame.K_SPACE:
-                        self.fire_bullet()
+                         self.fire_bullet()
                 elif event.type == ADDENEMY:
                     new_enemy = Enemy(self)
                     self.enemies.add(new_enemy)
@@ -151,9 +166,10 @@ class game:
                  player.kill()
                  self.crash()
                  gameExit = True
+
             collision = pygame.sprite.groupcollide(self.bullets,self.enemies,True,True)
             if collision != {}:
-                self.score.update_score()
+                self.score.update_score(2)
 
             # if x > display_width - car_width or x < 0:
             #         gameExit = True
@@ -186,7 +202,9 @@ class game:
             #     if x > thing_startx and x < thing_startx + thing_width or x+car_width > thing_startx and x + car_width < thing_startx+thing_width:
             #         crash()
 
-
+            # self.message_display("bullets: {}".format(numbullet),0,50,50)
+            self.score.display_score()
+            self.display_numbullets()
             pygame.display.flip()
             self.fpsClock.tick(60)
 
