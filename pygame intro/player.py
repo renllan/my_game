@@ -9,6 +9,7 @@ from pygame.locals import (
     QUIT,
     K_SPACE
 )
+from constant import constant
 class Player(pygame.sprite.Sprite):
     def __init__(self,game):
         super(Player,self).__init__()
@@ -58,6 +59,7 @@ class Player(pygame.sprite.Sprite):
     #         self.rect.top = 0
     #     if self.rect.bottom >= self.display_height:
     #         self.rect.bottom = self.display_height
+
     def move(self, deltax, deltay):
         self.rect.move_ip(deltax,deltay)
     def blitme(self):

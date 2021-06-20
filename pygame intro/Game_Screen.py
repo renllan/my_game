@@ -5,10 +5,11 @@ from Enemy import Enemy
 from input import input
 from bullet import Bullet
 from scoreboard import scoreboard
+from constant import constant
 class game:
      def __init__(self):
         pygame.init()
-        self.display_width= 800
+        self.display_width = 800
         self.display_height = 800
         self.gameDisplay = pygame.display.set_mode((self.display_width,self.display_height))
 
@@ -16,9 +17,9 @@ class game:
         pygame.display.set_caption("random game")
         self.fpsClock = pygame.time.Clock()
 
-        self.black = (0,0,0)
-        self.white = (255,255,255)
-        self.dark_grey = (169,169,169)
+        self.black = (0, 0, 0)
+        self.white = (255, 255, 255)
+        self.dark_grey = (169, 169, 169)
         self.car_width = 50
 
         self.carImg = pygame.image.load('racecar.png')
@@ -40,6 +41,7 @@ class game:
         self.bullets = pygame.sprite.Group()
         self.score = scoreboard(self)
         self.num_bullets = 20
+
      def text_object(self,text, font):
         textSurface = font.render(text,True, self.black)
         return textSurface, textSurface.get_rect()
@@ -59,7 +61,26 @@ class game:
         self.message_display('you crashed',self.display_width/2,self.display_height/2,115)
 
         self.message_display('score: {}'.format(self.score.score),self.display_width/2,self.display_height/2+100,115)
+        for i in self.enemies:
+            self.enemies.remove(i)
+            i.kill()
+        for i in self.all_sprites:
+            self.all_sprites.remove(i)
+            i.kill()
+        self.score.score= 0
+        self.num_bullets = 20
+        self.all_sprites.add(self.player)
+
+        pygame.display.flip()
         time.sleep(1)
+
+
+        # reset everything
+
+
+        #ask the user if they way to restart
+
+        # self.gameloop()
 
 
 
@@ -80,6 +101,8 @@ class game:
      def get_player(self):
          return self.player
 
+
+
      def gameloop(self):
         # i = 1
         # numblock = 1
@@ -95,7 +118,7 @@ class game:
         #
         # x_change = 0
         # y_change = 0
-        player = Player(self)
+
 
         numbullet = 4
         gameExit = False
@@ -163,9 +186,11 @@ class game:
                 b.update()
             #
             if pygame.sprite.spritecollideany(self.player,self.enemies):
-                 player.kill()
+                 self.player.kill()
                  self.crash()
-                 gameExit = True
+
+                 pygame.quit()
+                 # gameExit = True
 
             collision = pygame.sprite.groupcollide(self.bullets,self.enemies,True,True)
             if collision != {}:
@@ -208,8 +233,6 @@ class game:
             pygame.display.flip()
             self.fpsClock.tick(60)
 
-
 if __name__ == '__main__':
     game = game()
     game.gameloop()
-
