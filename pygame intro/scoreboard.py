@@ -1,5 +1,7 @@
+import pygame
 class scoreboard:
     def __init__(self,game):
+        pygame.init()
         self.game = game
         self.score = 0
 
@@ -8,4 +10,4 @@ class scoreboard:
 
 
     def display_score(self):
-        self.game.message_display("score: {}".format(self.score),40,20,20)
+        self.game.message_display("score: {}".format(self.score),40,20,20,self.game.black)

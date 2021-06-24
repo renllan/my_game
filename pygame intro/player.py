@@ -15,7 +15,7 @@ class Player(pygame.sprite.Sprite):
         super(Player,self).__init__()
         self.screen = game.gameDisplay
         self.surf = pygame.image.load('racecar.png').convert()
-        self.car_width = 50
+        self.car_width = 100
         self.surf = pygame.transform.scale(self.surf, (self.car_width, self.car_width))
         self.surf = pygame.transform.rotate(self.surf, 90)
         self.surf.set_colorkey((255, 255, 255), pygame.RLEACCEL)

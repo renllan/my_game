@@ -5,7 +5,7 @@ class Enemy(pygame.sprite.Sprite):
     def __init__(self,game):
         super(Enemy, self).__init__()
         self.game = game
-        self.surf = pygame.Surface((40, 20))
+        self.surf = pygame.Surface((random.randint(40,100), random.randint(20,50)))
         self.surf.fill(game.black)
         self.rect = self.surf.get_rect(
             center=(

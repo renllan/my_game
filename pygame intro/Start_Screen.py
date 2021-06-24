@@ -5,6 +5,8 @@
 from Game_Screen import game
 import pygame
 from constant import constant
+import util
+from constant import constant
 class Start_screen:
     def __init__(self):
 #         display
@@ -12,23 +14,28 @@ class Start_screen:
         self.game_display = pygame.display.set_mode((800, 800))
         self.start_button = pygame.Rect(400,400,200,50)
         self.start_button.midtop = (400,375)
-        self.constant = constant
         self.game = game()
 
+
+
+
     def start_loop(self):
-        this_screen = True
-        self.game_display.fill((255,255,255))
-        pygame.draw.rect(self.game_display,(0,150,150),self.start_button)
-        while this_screen:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    this_screen = False
-                    pygame.quit()
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    self.start_button.collidepoint(pygame.mouse.get_pos())
-                    self.game.gameloop()
-                    pygame.quit()
-            pygame.display.update()
+            this_screen = True
+            self.game_display.fill((255,255,255))
+            pygame.draw.rect(self.game_display,(0,150,150),self.start_button)
+            util.message_display(str = "start", center = self.start_button.center,font_size=30,color = (255,255,255),gameDisplay=self.game_display)
+            while this_screen:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        this_screen = False
+                        pygame.quit()
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        if self.start_button.collidepoint(pygame.mouse.get_pos()):
+                            constant.game_score = 2
+                            this_screen = False
+
+                if this_screen == True:
+                    pygame.display.update()
 
 if __name__ == '__main__':
     game = Start_screen()

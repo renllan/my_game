@@ -1,4 +1,6 @@
 class constant:
+    game_score = 1
+    print(game_score)
     def __init__(self):
         self.black = (0, 0, 0)
         self.white = (255, 255, 255)
@@ -6,3 +8,4 @@ class constant:
         self.car_width = 50
         self.display_width = 800
         self.display_height = 800
+

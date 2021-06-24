@@ -20,7 +20,7 @@ class game:
         self.black = (0, 0, 0)
         self.white = (255, 255, 255)
         self.dark_grey = (169, 169, 169)
-        self.car_width = 50
+        self.car_width = 100
 
         self.carImg = pygame.image.load('racecar.png')
         self.carImg = pygame.transform.rotate(self.carImg, 90)
@@ -42,13 +42,14 @@ class game:
         self.score = scoreboard(self)
         self.num_bullets = 20
 
-     def text_object(self,text, font):
-        textSurface = font.render(text,True, self.black)
+     def text_object(self,text, font,color):
+        textSurface = font.render(text,True, color)
         return textSurface, textSurface.get_rect()
 
-     def message_display(self,str,x,y,font_size):
+     def message_display(self,str,x,y,font_size,color):
+        pygame.font.init()
         largeText = pygame.font.Font('freesansbold.ttf',font_size)
-        TextSurf, TextRect = self.text_object(str, largeText)
+        TextSurf, TextRect = self.text_object(str, largeText,color)
         TextRect.center = (x,y)
         self.gameDisplay.blit(TextSurf, TextRect)
 
@@ -58,9 +59,9 @@ class game:
 
 
      def crash(self):
-        self.message_display('you crashed',self.display_width/2,self.display_height/2,115)
-
-        self.message_display('score: {}'.format(self.score.score),self.display_width/2,self.display_height/2+100,115)
+        self.message_display('you crashed',self.display_width/2,self.display_height/2,115,self.black)
+        #
+        # self.message_display('score: {}'.format(self.score.score),self.display_width/2,self.display_height/2+100,115,self.black)
         for i in self.enemies:
             self.enemies.remove(i)
             i.kill()
@@ -70,7 +71,7 @@ class game:
         self.score.score= 0
         self.num_bullets = 20
         self.all_sprites.add(self.player)
-
+        self.player.rect = self.player.surf.get_rect(center=self.player.surf_center)
         pygame.display.flip()
         time.sleep(1)
 
@@ -97,28 +98,15 @@ class game:
              self.num_bullets -= 1
 
      def display_numbullets(self):
-         self.message_display("bullets: {}".format(self.num_bullets), self.display_width-100, 20, 20)
+         self.message_display("bullets: {}".format(self.num_bullets), self.display_width-100, 20, 20,self.black)
      def get_player(self):
          return self.player
 
 
 
      def gameloop(self):
-        # i = 1
-        # numblock = 1
-        # x =  (0.5* display_width-150)
-        # y = (display_height-car_width)
-        # thing_startx = random.randrange(0, display_width)
-        #
-        # thing_starty = -800
-        #
-        # thing_speed = 13
-        # thing_width = block_width
-        # thing_height = 100
-        #
-        # x_change = 0
-        # y_change = 0
 
+        pygame.init()
 
         numbullet = 4
         gameExit = False
@@ -146,10 +134,12 @@ class game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     gameExit = True
+                    constant.game_score = 4
 
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         gameExit = True
+                        constant.game_score = 4
                     if event.key == pygame.K_SPACE:
                          self.fire_bullet()
                 elif event.type == ADDENEMY:
@@ -186,48 +176,21 @@ class game:
                 b.update()
             #
             if pygame.sprite.spritecollideany(self.player,self.enemies):
+                 # Update gamestate variable
                  self.player.kill()
                  self.crash()
+                 constant.game_score = 3
 
-                 pygame.quit()
-                 # gameExit = True
+
+
+                 gameExit = True
+
 
             collision = pygame.sprite.groupcollide(self.bullets,self.enemies,True,True)
             if collision != {}:
                 self.score.update_score(2)
 
-            # if x > display_width - car_width or x < 0:
-            #         gameExit = True
-            #
-            # x = x+x_change
-            #
-            #
-            #
-            #
-            #
-            #
-            #
-            #
-            # if thing_starty >  display_height:
-            #
-            #     thing_starty = 0 - thing_height
-            #     thing_startx = random.randrange(0, display_width - thing_width)
-            #     pygame.display.update(thing(thing_startx, thing_starty, thing_width, thing_height, (black),numblock))
-            #
-            #
-            #         # thing_starty += thing_speed
-            #     thing_speed = thing_speed * 1.05
-            #     car_speed = car_speed * 1.05
-            #
-            #
-            # numblock +=1
-            #
-            #
-            # if y < thing_starty + thing_height:
-            #     if x > thing_startx and x < thing_startx + thing_width or x+car_width > thing_startx and x + car_width < thing_startx+thing_width:
-            #         crash()
 
-            # self.message_display("bullets: {}".format(numbullet),0,50,50)
             self.score.display_score()
             self.display_numbullets()
             pygame.display.flip()
