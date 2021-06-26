@@ -7,14 +7,15 @@ from bullet import Bullet
 from scoreboard import scoreboard
 from constant import constant
 class game:
+
      def __init__(self):
         pygame.init()
-        self.display_width = 800
-        self.display_height = 800
+        self.display_width = 1000
+        self.display_height = 1000
         self.gameDisplay = pygame.display.set_mode((self.display_width,self.display_height))
 
         self.time =time
-        pygame.display.set_caption("random game")
+        pygame.display.set_caption("my game")
         self.fpsClock = pygame.time.Clock()
 
         self.black = (0, 0, 0)
@@ -60,6 +61,7 @@ class game:
 
      def crash(self):
         self.message_display('you crashed',self.display_width/2,self.display_height/2,115,self.black)
+        scoreboard.final_score = self.score.score
         #
         # self.message_display('score: {}'.format(self.score.score),self.display_width/2,self.display_height/2+100,115,self.black)
         for i in self.enemies:

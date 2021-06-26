@@ -1,5 +1,6 @@
 import pygame
 class scoreboard:
+    final_score = 0
     def __init__(self,game):
         pygame.init()
         self.game = game

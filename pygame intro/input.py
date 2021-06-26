@@ -19,12 +19,14 @@ class input:
         # self.game.player.update(keypressed)
         player1 = self.game.get_player()
         if keypressed[K_LEFT]:
-            player1.move(-5, 0)
+            player1.move(-8, 0)
         if keypressed[K_DOWN]:
-            player1.move(0, 5)
+            player1.move(0, 8)
+        if keypressed[K_UP]:
+            player1.move(0, -8)
 
         if keypressed[K_RIGHT]:
-            player1.move(5, 0)
+            player1.move(8, 0)
 
         if player1.rect.left < 0:
             player1.rect.left = 0

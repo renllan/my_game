@@ -11,9 +11,9 @@ class Start_screen:
     def __init__(self):
 #         display
 #   button
-        self.game_display = pygame.display.set_mode((800, 800))
-        self.start_button = pygame.Rect(400,400,200,50)
-        self.start_button.midtop = (400,375)
+        self.game_display = pygame.display.set_mode((1000, 1000))
+        self.start_button = pygame.Rect(4000,400,200,50)
+        self.start_button.midtop = (500,475)
         self.game = game()
 
 
