@@ -9,7 +9,8 @@ from pygame.locals import (
     K_SPACE,
     K_r
 )
-from bullet import Bullet
+import BulletTracker
+
 class input:
 
     def __init__(self, game):
@@ -40,7 +41,7 @@ class input:
         # if keypressed[K_SPACE]:
         #     self.game.fire_bullet()
         if keypressed[K_r]:
-            self.game.num_bullets = 20
+            self.game.num_bullets.numbullet = 20
         # if keypressed[K_SPACE]:
         #     bullet = Bullet(self.game)
         #     self.game.all_sprites.add(bullet)
