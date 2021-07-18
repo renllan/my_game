@@ -74,6 +74,7 @@ class GameManager:
 
 if __name__ == '__main__':
     game = GameManager()
+    # print(pygame.font.get_fonts())
     while game.running:
         game.gameloop()
 

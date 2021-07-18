@@ -33,6 +33,11 @@ class game(Screen):
         self.carImg = pygame.transform.rotate(self.carImg, 90)
         self.carImg = pygame.transform.scale(self.carImg, (self.car_width, self.car_width))
 
+        self.road_img = pygame.image.load("IIMAGE/road.jpg")
+        self.road_img = pygame.transform.rotate(self.road_img, 90)
+
+        self.road_img = pygame.transform.scale(self.road_img, (constant.display_width, constant.display_height))
+
         self.player = Player(self)
         self.all_sprites = pygame.sprite.Group()
         self.all_sprites.add(self.player)
@@ -55,7 +60,7 @@ class game(Screen):
 
     def message_display(self, str, x, y, font_size, color):
         pygame.font.init()
-        largeText = pygame.font.Font('freesansbold.ttf', font_size)
+        largeText = pygame.font.SysFont('sitkasmallsitkatextitalicsitkasubheadingitalicsitkaheadingitalicsitkadisplayitalicsitkabanneritalic', font_size)
         TextSurf, TextRect = self.text_object(str, largeText, color)
         TextRect.center = (x, y)
         self.gameDisplay.blit(TextSurf, TextRect)
@@ -63,7 +68,7 @@ class game(Screen):
         pygame.display.update()
 
     def crash(self):
-       self.message_display('you crashed',self.display_width/2,self.display_height/2,115,(0,0,0))
+       self.message_display('you crashed',self.display_width/2,self.display_height/2,115,(255,0,38))
        scoreboard.final_score = self.score.score
        #
        # self.message_display('score: {}'.format(self.score.score),self.display_width/2,self.display_height/2+100,115,self.black)
@@ -93,7 +98,7 @@ class game(Screen):
     #     pygame.draw.rect(gameDisplay,color, [x,y,w,h])
 
     #note add throttle method
-    @throttle.wrap(0.33, 1)
+    @throttle.wrap(0.33   , 2)
     def add_enememy(self):
         new_enemy = Enemy(self)
         self.enemies.add(new_enemy)
@@ -115,7 +120,7 @@ class game(Screen):
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                self.manger.playing = False
+                self.manager.playing = False
                 self.manager.running = False
 
 
@@ -145,7 +150,7 @@ class game(Screen):
 
 
     def render(self,display):
-        display.fill((255, 255, 255))
+        display.blit(self.road_img, (0,0))
         for entity in self.all_sprites:
             display.blit(entity.surf, entity.rect)
         for b in self.bullets:
@@ -156,7 +161,7 @@ class game(Screen):
         self.num_bullets.display_numbullets()
         self.score.display_score()
 
-        self.fpsClock.tick(60)
+        # self.fpsClock.tick(60)
 
 if __name__ == '__main__':
     game = game()
