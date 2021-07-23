@@ -13,8 +13,8 @@ from Screen import Screen
 class StartScreen(Screen):
     def __init__(self,Gamemanger):
         Screen.__init__(self,Gamemanger)
-        self.start_button = pygame.Rect(4000, 400, 200, 50)
-        self.start_button.midtop = (500, 475)
+        self.start_button = pygame.Rect(400, 400, 300, 100)
+        self.start_button.center = (constant.display_width/2, constant.display_height/2)
 
 #         display
 #   button
@@ -25,10 +25,13 @@ class StartScreen(Screen):
     def update(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                self.manger.playing = False
+                self.manager.playing = False
                 self.manager.running = False
 
-
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    self.manager.playing = False
+                    self.manager.running = False
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if self.start_button.collidepoint(pygame.mouse.get_pos()):
                     self.manager.current_state = Game_Screen.game(self.manager)
@@ -37,11 +40,11 @@ class StartScreen(Screen):
     def render(self,display):
         display.fill((255, 255, 255))
         pygame.draw.rect(display, (0, 150, 150), self.start_button)
-        util.message_display(str="start", center=self.start_button.center, font_size=30, color=(255, 255, 255),
+        util.message_display(str="start", center=self.start_button.center, font_size=50, color=(255, 255, 255),
                              gameDisplay=display)
 
 
 
-if __name__ == '__main__':
-    game = Start_screen()
-    game.start_loop()
+# if __name__ == '__main__':
+#     game = Start_screen()
+#     game.start_loop()

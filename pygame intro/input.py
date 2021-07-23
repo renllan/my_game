@@ -10,7 +10,7 @@ from pygame.locals import (
     K_r
 )
 import BulletTracker
-
+from constant import constant
 class input:
 
     def __init__(self, game):
@@ -31,12 +31,12 @@ class input:
 
         if player1.rect.left < 0:
             player1.rect.left = 0
-        if player1.rect.right > self.game.display_width:
-            player1.rect.right = self.game.display_width
+        if player1.rect.right > constant.display_width:
+            player1.rect.right = constant.display_width
         if player1.rect.top <= 0:
             player1.rect.top = 0
-        if player1.rect.bottom >= self.game.display_height:
-            player1.rect.bottom = self.game.display_height
+        if player1.rect.bottom >=constant.display_height:
+            player1.rect.bottom = constant.display_height
         self.game.enemies.update()
         # if keypressed[K_SPACE]:
         #     self.game.fire_bullet()

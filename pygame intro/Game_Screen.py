@@ -6,22 +6,23 @@ from BulletTracker import BulletTracker
 from Enemy import Enemy
 from Screen import Screen
 from bullet import Bullet
-from constant import constant
 from input import input
 from player import Player
 from scoreboard import scoreboard
 import End_Screen
-
-
+# from util import util
+from constant import constant
+import util
 class game(Screen):
-
+    delay = 0.07
+    limit = 1
     def __init__(self, game_manager):
         Screen.__init__(self, game_manager)
         pygame.init()
-        self.display_width = 1000
-        self.display_height = 1000
-        self.gameDisplay = pygame.display.set_mode((self.display_width, self.display_height))
-        self.surface = pygame.Surface((self.display_width, self.display_height))
+        self.cons = constant()
+
+        self.gameDisplay = pygame.display.set_mode((constant.display_width, constant.display_height))
+
 
         self.time = time
         pygame.display.set_caption("my game")
@@ -29,14 +30,10 @@ class game(Screen):
 
         self.car_width = 100
 
-        self.carImg = pygame.image.load('racecar.png')
-        self.carImg = pygame.transform.rotate(self.carImg, 90)
-        self.carImg = pygame.transform.scale(self.carImg, (self.car_width, self.car_width))
-
         self.road_img = pygame.image.load("IIMAGE/road.jpg")
         self.road_img = pygame.transform.rotate(self.road_img, 90)
 
-        self.road_img = pygame.transform.scale(self.road_img, (constant.display_width, constant.display_height))
+        self.road_img = pygame.transform.scale(self.road_img, (self.cons.display_width, self.cons.display_height))
 
         self.player = Player(self)
         self.all_sprites = pygame.sprite.Group()
@@ -54,6 +51,11 @@ class game(Screen):
         self.score = scoreboard(self)
         self.num_bullets = BulletTracker(self)
 
+        self.delay = 0.7
+        self.limit = 3
+        self.level = 0
+
+        self.crashes = False
     def text_object(self, text, font, color):
         textSurface = font.render(text, True, color)
         return textSurface, textSurface.get_rect()
@@ -67,11 +69,13 @@ class game(Screen):
 
         pygame.display.update()
 
+
     def crash(self):
-       self.message_display('you crashed',self.display_width/2,self.display_height/2,115,(255,0,38))
-       scoreboard.final_score = self.score.score
-       #
-       # self.message_display('score: {}'.format(self.score.score),self.display_width/2,self.display_height/2+100,115,self.black)
+       # scoreboard.final_score = self.score.score
+       self.message_display('you crashed',constant.display_width/2,constant.display_height/2,115,(255,0,38))
+       # print("ran")
+       time.sleep(1)
+       # util.message_display('score: {}'.format(self.score.score),self.display_width/2,self.display_height/2+100,115,self.black)
        for i in self.enemies:
            self.enemies.remove(i)
            i.kill()
@@ -96,9 +100,15 @@ class game(Screen):
     #
     # def thing(x,y,w,h, color,blocks):
     #     pygame.draw.rect(gameDisplay,color, [x,y,w,h])
-
+    @throttle.wrap(3,1)
+    def update_level(self):
+        self.level +=1
+        if self.level % 2 == 0:
+            self.delay -= 0.05
+        else:
+            self.limit += 1
     #note add throttle method
-    @throttle.wrap(0.33   , 2)
+    @throttle.wrap(delay , limit)
     def add_enememy(self):
         new_enemy = Enemy(self)
         self.enemies.add(new_enemy)
@@ -126,11 +136,14 @@ class game(Screen):
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    self.manger.playing = False
+                    self.manager.playing = False
                     self.manager.running = False
                 if event.key == pygame.K_SPACE:
                     self.fire_bullet()
+
+
         self.add_enememy()
+        self.update_level()
         pressed_keys = pygame.key.get_pressed()
 
         #update  movement of players
@@ -140,7 +153,9 @@ class game(Screen):
         if pygame.sprite.spritecollideany(self.player, self.enemies):
             # Update gamestate variable
             self.player.kill()
+            # self.crashes = True
             self.crash()
+
             self.manager.current_state = End_Screen.EndScreen(self.manager)
 
 
@@ -153,13 +168,13 @@ class game(Screen):
         display.blit(self.road_img, (0,0))
         for entity in self.all_sprites:
             display.blit(entity.surf, entity.rect)
-        for b in self.bullets:
-            display.blit(b.surf, b.rect.topleft)
-            b.update()
+        # for b in self.bullets:
+        #     display.blit(b.surf, b.rect.topleft)
+        #     b.update()
         #
 
-        self.num_bullets.display_numbullets()
-        self.score.display_score()
+        self.num_bullets.display_numbullets(display)
+        self.score.display_score(display)
 
         # self.fpsClock.tick(60)
 

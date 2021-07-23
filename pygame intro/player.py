@@ -1,4 +1,5 @@
 import pygame
+from constant import constant
 from pygame.locals import (
     K_UP,
     K_DOWN,
@@ -13,20 +14,21 @@ from constant import constant
 class Player(pygame.sprite.Sprite):
     def __init__(self,game):
         super(Player,self).__init__()
-        self.screen = game.gameDisplay
-        self.surf = pygame.image.load('racecar.png').convert()
-        self.car_width = 150
-        self.surf = pygame.transform.scale(self.surf, (150,112))
+        self.constant = constant()
+        self.surf = pygame.image.load('IIMAGE/racecar.png').convert()
+        self.car_height = 200
+        self.car_width = 133
+        self.surf = pygame.transform.scale(self.surf, (self.car_height,self.car_width))
         self.surf = pygame.transform.rotate(self.surf, 90)
         self.surf.set_colorkey((0, 0, 0), pygame.RLEACCEL)
         self.surf_center = (
-    (game.display_width-self.surf.get_width())/2,
-    (game.display_height-self.car_width/2)
+    (self.constant.display_width-self.surf.get_width())/2,
+    (self.constant.display_height-self.car_width/2)
 
         )
 
-        self.display_width = game.display_width
-        self.display_height = game.display_height
+        # self.display_width = game.display_width
+        # self.display_height = game.display_height
 
         self.rect = self.surf.get_rect(center = self.surf_center)
         self.center = self.surf_center
@@ -62,5 +64,5 @@ class Player(pygame.sprite.Sprite):
 
     def move(self, deltax, deltay):
         self.rect.move_ip(deltax,deltay)
-    def blitme(self):
-        self.screen.blit(self.surf, self.rect)
+    # def render(self,display):
+    #     display.blit(self.surf, self.surf_center)

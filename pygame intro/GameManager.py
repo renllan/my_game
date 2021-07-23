@@ -20,7 +20,7 @@ class GameManager:
         self.cons = constant()
         self.state_number = 1
         pygame.init()
-        self.GAME_W, self.GAME_H = self.cons.display_height, self.cons.display_height
+        self.GAME_W, self.GAME_H = self.cons.display_width, self.cons.display_height
         self.game_canvas = pygame.Surface((self.GAME_W, self.GAME_H))
         self.game_display = pygame.display.set_mode((self.GAME_W, self.GAME_H))
 
@@ -31,33 +31,34 @@ class GameManager:
         self.ADDENEMY = pygame.USEREVENT + 0
         self.interval = pygame.time.set_timer(self.ADDENEMY, 300)
 
-    @staticmethod
-    def change_state(gamestate):
+    # @staticmethod
+    # def change_state(gamestate):
+    #
+    #     if gamestate == constant.START_GAME:
+    #         start_screen = Start_Screen.StartScreen()
+    #         start_screen.startLoop()
+    #     if gamestate == constant.IN_GAME:
+    #         game_screen = Game_Screen.game()
+    #         game_screen.gameloop()
+    #     if gamestate == constant.END_GAME:
+    #         end_screen = End_Screen.EndScreen()
+    #         end_screen.end_loop()
+    #     if gamestate == constant.QUIT:
+    #         pygame.quit()
 
-        if gamestate == constant.START_GAME:
-            start_screen = Start_Screen.StartScreen()
-            start_screen.startLoop()
-        if gamestate == constant.IN_GAME:
-            game_screen = Game_Screen.game()
-            game_screen.gameloop()
-        if gamestate == constant.END_GAME:
-            end_screen = End_Screen.EndScreen()
-            end_screen.end_loop()
-        if gamestate == constant.QUIT:
-            pygame.quit()
+    # def manage(self):
+    #     while True:
+    #         print(constant.game_score)
+    #         if GameManager.gamestate == 1:
+    #             self.start_screen.start_loop()
+    #         if GameManager.gamestate == 2:
+    #             self.game_screen.gameloop()
+    #         if GameManager.gamestate== 3:
+    #             self.end_screen.end_loop()
+    #         if GameManager.gamestate == 4:
+    #             pygame.quit()
+    #             break
 
-    def manage(self):
-        while True:
-            print(constant.game_score)
-            if GameManager.gamestate == 1:
-                self.start_screen.start_loop()
-            if GameManager.gamestate == 2:
-                self.game_screen.gameloop()
-            if GameManager.gamestate== 3:
-                self.end_screen.end_loop()
-            if GameManager.gamestate == 4:
-                pygame.quit()
-                break
     def update(self):
         self.current_state.update()
     def render(self):
