@@ -13,7 +13,7 @@ from Screen import Screen
 class StartScreen(Screen):
     def __init__(self,Gamemanger):
         Screen.__init__(self,Gamemanger)
-        self.start_button = pygame.Rect(400, 400, 300, 100)
+        self.start_button = pygame.Rect(200, 200, 300, 100)
         self.start_button.center = (constant.display_width/2, constant.display_height/2)
 
 #         display

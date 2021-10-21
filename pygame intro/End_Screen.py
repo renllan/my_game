@@ -21,10 +21,10 @@ class EndScreen(Screen):
 #   button
 #         self.game_display = pygame.display.set_mode((1000, 1000))
         self.restart_button = pygame.Rect(600,600,200,50)
-        self.restart_button.midtop = (constant.display_width/4,800)
+        self.restart_button.midtop = (constant.display_width/4,constant.display_height/2+200)
         self.constant = constant()
         self.quit_button = pygame.Rect(600,600,200,50)
-        self.quit_button.midtop = (3*constant.display_width/4,800)
+        self.quit_button.midtop = (3*constant.display_width/4,constant.display_height/2+200)
 
     def update(self):
         for event in pygame.event.get():
@@ -49,7 +49,7 @@ class EndScreen(Screen):
         util.message_display(str='you crashed', center=(constant.display_width / 2, constant.display_height / 2),
                              font_size=115, color=constant.black, gameDisplay=display)
 
-        util.message_display(str='score: {}'.format(scoreboard.final_score), center=(constant.display_width / 2,
+        util.message_display(str='score: {}'.format(constant.score), center=(constant.display_width / 2,
                                                                                      constant.display_height / 2 + 100),
                              font_size=115, color=constant.black, gameDisplay=display)
         util.message_display(str="restart", center=self.restart_button.center, font_size=30, color=(255, 255, 255),

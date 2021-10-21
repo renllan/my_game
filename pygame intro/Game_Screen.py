@@ -14,7 +14,7 @@ import End_Screen
 from constant import constant
 import util
 class game(Screen):
-    delay = 0.07
+    delay = 0.1
     limit = 1
     def __init__(self, game_manager):
         Screen.__init__(self, game_manager)
@@ -28,12 +28,12 @@ class game(Screen):
         pygame.display.set_caption("my game")
         self.fpsClock = pygame.time.Clock()
 
-        self.car_width = 100
+        self.car_width = 80
 
         self.road_img = pygame.image.load("IIMAGE/road.jpg")
         self.road_img = pygame.transform.rotate(self.road_img, 90)
 
-        self.road_img = pygame.transform.scale(self.road_img, (self.cons.display_width, self.cons.display_height))
+        self.road_img = pygame.transform.scale(self.road_img, (constant.display_width, constant.display_height))
 
         self.player = Player(self)
         self.all_sprites = pygame.sprite.Group()
@@ -82,12 +82,13 @@ class game(Screen):
        for i in self.all_sprites:
            self.all_sprites.remove(i)
            i.kill()
-       self.score.score= 0
-       self.num_bullets = 20
-       self.all_sprites.add(self.player)
-       self.player.rect = self.player.surf.get_rect(center=self.player.surf_center)
-       pygame.display.flip()
-       time.sleep(1)
+       constant.score = self.score.score
+       # self.score.score= 0
+       # self.num_bullets = 20
+       # self.all_sprites.add(self.player)
+       # self.player.rect = self.player.surf.get_rect(center=self.player.surf_center)
+       # pygame.display.flip()
+       # time.sleep(1)
 
     # reset everything
 
@@ -100,6 +101,10 @@ class game(Screen):
     #
     # def thing(x,y,w,h, color,blocks):
     #     pygame.draw.rect(gameDisplay,color, [x,y,w,h])
+    @throttle.wrap(1,1)
+    def update_score(self):
+        self.score.score = self.score.score +1
+
     @throttle.wrap(3,1)
     def update_level(self):
         self.level +=1
@@ -143,7 +148,6 @@ class game(Screen):
 
 
         self.add_enememy()
-        self.update_level()
         pressed_keys = pygame.key.get_pressed()
 
         #update  movement of players
@@ -161,7 +165,8 @@ class game(Screen):
 
         collision = pygame.sprite.groupcollide(self.bullets, self.enemies, True, True)
         if collision != {}:
-            self.score.update_score(2)
+            self.score.score += 0.5
+
 
 
     def render(self,display):

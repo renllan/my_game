@@ -7,8 +7,10 @@ class constant:
     white = (255, 255, 255)
     dark_grey = (169, 169, 169)
     car_width = 50
-    display_width = 1920
-    display_height = 1080
+    display_width = 1000
+    display_height = 700
+    score = 0
+
 
 
 

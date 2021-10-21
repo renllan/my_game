@@ -16,14 +16,14 @@ class Player(pygame.sprite.Sprite):
         super(Player,self).__init__()
         self.constant = constant()
         self.surf = pygame.image.load('IIMAGE/racecar.png').convert()
-        self.car_height = 200
-        self.car_width = 133
+        self.car_height = 100
+        self.car_width = 66
         self.surf = pygame.transform.scale(self.surf, (self.car_height,self.car_width))
         self.surf = pygame.transform.rotate(self.surf, 90)
         self.surf.set_colorkey((0, 0, 0), pygame.RLEACCEL)
         self.surf_center = (
-    (self.constant.display_width-self.surf.get_width())/2,
-    (self.constant.display_height-self.car_width/2)
+    (constant.display_width/2,
+    (constant.display_height-self.car_height/2))
 
         )
 

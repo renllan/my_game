@@ -17,10 +17,9 @@ class GameManager:
 
 
 
-        self.cons = constant()
         self.state_number = 1
         pygame.init()
-        self.GAME_W, self.GAME_H = self.cons.display_width, self.cons.display_height
+        self.GAME_W, self.GAME_H = constant.display_width, constant.display_height
         self.game_canvas = pygame.Surface((self.GAME_W, self.GAME_H))
         self.game_display = pygame.display.set_mode((self.GAME_W, self.GAME_H))
 
